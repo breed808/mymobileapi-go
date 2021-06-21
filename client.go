@@ -53,7 +53,7 @@ func (c *Client) Authenticate() error {
 		return err
 	}
 
-	c.authTokenExpiry = time.Now().Add(duration)
+	c.AuthTokenExpiry = time.Now().Add(duration)
 	c.authToken = authResponse.Token
 
 	return nil
