@@ -24,9 +24,9 @@ type Client struct {
 // NewClient returns a client.
 func NewClient(clientID, clientSecret string, debug bool) (*Client, error) {
 	// Create Authorization header from client ID & secret
-	authorization := base64.StdEncoding.EncodeToString([]byte(clientID + ":" + clientSecret))
+	authorization := "BASIC " + base64.StdEncoding.EncodeToString([]byte(clientID+":"+clientSecret))
 
-	client := Client{authorization: authorization, endpoint: "https://rest.mymobileapi.com/v1/", httpClient: &http.Client{}}
+	client := Client{authorization: authorization, endpoint: "https://rest.mymobileapi.com/v1/", debug: debug, httpClient: &http.Client{}}
 
 	err := client.Authenticate()
 	if err != nil {
@@ -43,6 +43,7 @@ func (c *Client) Authenticate() error {
 		Schema           string `json:"schema"`
 		ExpiresInMinutes int    `json:"expiresInMinutes"`
 	}{}
+
 	_, err := c.get("Authentication", nil, &authResponse)
 	if err != nil {
 		return err
@@ -54,7 +55,7 @@ func (c *Client) Authenticate() error {
 	}
 
 	c.AuthTokenExpiry = time.Now().Add(duration)
-	c.authToken = authResponse.Token
+	c.authToken = "Bearer " + authResponse.Token
 
 	return nil
 }
