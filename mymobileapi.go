@@ -3,24 +3,24 @@ package mymobileapi
 // The SMS message that should be sent. Must contain at least one message and at most 100 messages.
 type Message struct {
 	// The textual content of the SMS message
-	Content string
+	Content string `json:"content"`
 	// The MSISDN (mobile number) to whom the messages is intended
-	Destination string
+	Destination string `json:"destination"`
 	// A user defined ID which can be used to correlate messages sent to the API and receipts or replies
 	// received for that message. Maximum length 100 characters
-	CustomerId string
+	CustomerId string `json:"customerId,omitempty"`
 	// Variables related to the generation of a mobile document associated with a specific SMS message, and document template.
 	Document struct {
 		// The API template name related to the document template.
-		Template string
+		Template string `json:"template,omitempty"`
 		// The version of the document template to use. If not provided then the configured default (active) version is used.
-		Version int
+		Version int `json:"version,omitempty"`
 		// The authentication password for the document.
 		// If not provided (Empty or Null) then the document will not require authentication.
-		Password string
+		Password string `json:"password,omitempty"`
 		// The values of the variables defined in the document template.
-		Variables interface{}
-	}
+		Variables interface{} `json:"variables,omitempty"`
+	} `json:"document,omitempty"`
 }
 
 // BulkMessageRequest is a request to send a batch of SMS messages
@@ -30,46 +30,46 @@ type BulkMessageRequest struct {
 		// The sender ID (source address) to use when sending the messages specified. Maximum length is 11 characters.
 		// Please note that a best effort is made to use the value specified but availability is ultimately
 		// determined by the mobile network operator
-		SenderId string
+		SenderId string `json:"senderId,omitempty"`
 		// The type of duplication check to use (Defaults to 'None')
-		DuplicateCheck string
+		DuplicateCheck string `json:"duplicateCheck,omitempty"`
 		// The date and time in UTC when the messages should be sent.
 		// Maximum date and time allowed is 3 months from the current date and time.
 		// Value should be formatted according to ISO 8601 UTC format (yyyy-mm-ddThh:mm[:ss][Z])
-		StartDeliveryUtc string
+		StartDeliveryUtc string `json:"startDeliveryUtc,omitempty"`
 		// This value should be set in UTC if delivery should be staggered over a period of time.
 		// Leave null if all messages should be sent as soon as possible.
 		// Value, if set, must be greater than StartDeliveryUtc
 		// and should be formatted according to ISO 8601 UTC format (yyyy-mm-ddThh:mm[:ss][Z])
-		EndDeliveryUtc string
+		EndDeliveryUtc string `json:"endDeliveryUtc,omitempty"`
 		// The name of the reply rule set that should be used for the send. Replies that are received as a result of
 		// the send are then subject to rules configured in the reply rule set governing auto forwards and auto
 		// responses
-		ReplyRuleSetName string
+		ReplyRuleSetName string `json:"replyRuleSetName,omitempty"`
 		// A user defined value for the name of the campaign associated with this send. Only used by the system for
 		// reporting purposes. Maximum value is 100 characters
-		CampaignName string
+		CampaignName string `json:"campaignName,omitempty"`
 		// A user defined value for the name of the cost center associated with this send. Only used by the system for
 		// reporting purposes. Maximum value is 100 characters
-		CostCentre string
+		CostCentre string `json:"costCentre,omitempty"`
 		// True if SMS messages should not be sent to mobile subscribers that have opted-out as a result of a previous
 		// send; otherwise false
-		CheckOptOuts bool
+		CheckOptOuts bool `json:"checkOptOuts,omitempty"`
 		// True if this send should try shorten and track urls otherwise false.
-		ShortenUrls bool
+		ShortenUrls bool `json:"shortenUrls,omitempty"`
 		// The amount of time in hours an SMS should remain valid.
 		// The network will continue to try to deliver the SMS over the validity period.
-		ValidityPeriod int
+		ValidityPeriod int `json:"validityPeriod,omitempty"`
 		// Should the messages be sent or is this a test of the API?
 		// If TestMode = true then it will return the result but won’t send the data, and won’t appear in any sent report.
-		TestMode bool
+		TestMode bool `json:"testMode,omitempty"`
 		// The api name of the reply rule to use for this send
-		RuleName string
+		RuleName string `json:"ruleName,omitempty"`
 		// The specific reply rule version to use for this send (if null, the active version will be used).
-		ReplyRuleVersion int
+		ReplyRuleVersion int `json:"replyRuleVersion,omitempty"`
 		// Any Extra reply forward emails for this send.
-		ExtraForwardEmails string
-	}
+		ExtraForwardEmails string `json:"extraForwardEmails,omitempty"`
+	} `json:"sendOptions,omitempty"`
 	Messages []Message
 }
 
@@ -80,46 +80,46 @@ type GroupMessageRequest struct {
 		// The sender ID (source address) to use when sending the messages specified. Maximum length is 11 characters.
 		// Please note that a best effort is made to use the value specified but availability is ultimately
 		// determined by the mobile network operator
-		SenderId string
+		SenderId string `json:"senderId,omitempty"`
 		// The type of duplication check to use (Defaults to 'None')
-		DuplicateCheck string
+		DuplicateCheck string `json:"duplicateCheck,omitempty"`
 		// The date and time in UTC when the messages should be sent.
 		// Maximum date and time allowed is 3 months from the current date and time.
 		// Value should be formatted according to ISO 8601 UTC format (yyyy-mm-ddThh:mm[:ss][Z])
-		StartDeliveryUtc string
+		StartDeliveryUtc string `json:"startDeliveryUtc,omitempty"`
 		// This value should be set in UTC if delivery should be staggered over a period of time.
 		// Leave null if all messages should be sent as soon as possible.
 		// Value, if set, must be greater than StartDeliveryUtc
 		// and should be formatted according to ISO 8601 UTC format (yyyy-mm-ddThh:mm[:ss][Z])
-		EndDeliveryUtc string
+		EndDeliveryUtc string `json:"endDeliveryUtc,omitempty"`
 		// The name of the reply rule set that should be used for the send. Replies that are received as a result of
 		// the send are then subject to rules configured in the reply rule set governing auto forwards and auto
 		// responses
-		ReplyRuleSetName string
+		ReplyRuleSetName string `json:"replyRuleSetName,omitempty"`
 		// A user defined value for the name of the campaign associated with this send. Only used by the system for
 		// reporting purposes. Maximum value is 100 characters
-		CampaignName string
+		CampaignName string `json:"campaignName,omitempty"`
 		// A user defined value for the name of the cost center associated with this send. Only used by the system for
 		// reporting purposes. Maximum value is 100 characters
-		CostCentre string
+		CostCentre string `json:"costCentre,omitempty"`
 		// True if SMS messages should not be sent to mobile subscribers that have opted-out as a result of a previous
 		// send; otherwise false
-		CheckOptOuts bool
+		CheckOptOuts bool `json:"checkOptOuts,omitempty"`
 		// True if this send should try shorten and track urls otherwise false.
-		ShortenUrls bool
+		ShortenUrls bool `json:"shortenUrls,omitempty"`
 		// The amount of time in hours an SMS should remain valid.
 		// The network will continue to try to deliver the SMS over the validity period.
-		ValidityPeriod int
+		ValidityPeriod int `json:"validityPeriod,omitempty"`
 		// Should the messages be sent or is this a test of the API?
 		// If TestMode = true then it will return the result but won’t send the data, and won’t appear in any sent report.
-		TestMode bool
+		TestMode bool `json:"testMode,omitempty"`
 		// The api name of the reply rule to use for this send
-		RuleName string
+		RuleName string `json:"ruleName,omitempty"`
 		// The specific reply rule version to use for this send (if null, the active version will be used).
-		ReplyRuleVersion int
+		ReplyRuleVersion int `json:"replyRuleVersion,omitempty"`
 		// Any Extra reply forward emails for this send.
-		ExtraForwardEmails string
-	}
+		ExtraForwardEmails string `json:"extraForwardEmails,omitempty"`
+	} `json:"sendOptions,omitempty"`
 	Message Message
 	// The names of the groups that contacts should belong to. These contacts will be the recipients of
 	// the SMS message. Should contain at least one group name.
